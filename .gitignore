@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+celerybeat-schedule*
+
+# Node
+node_modules/
+dist/
+
+# Env
+.env
+.env.local
+backend/.env
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

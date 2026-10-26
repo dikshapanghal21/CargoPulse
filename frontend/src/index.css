@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Brand */
+  --color-hull: #13283d;        /* navy hull: nav, KPI band, primary buttons */
+  --color-hull-2: #1d3954;
+  --color-hull-3: #2b4c6b;
+  --color-deck: #edf0f2;        /* page plane */
+  --color-surface: #ffffff;
+  --color-ink: #16222e;         /* primary text */
+  --color-steel: #586a7b;       /* secondary text */
+  --color-fog: #8796a4;         /* muted text, axes */
+  --color-rule: #d7dee4;        /* hairlines */
+  --color-rule-soft: #e7ecef;
+  --color-harbor: #1e6bb8;      /* links, focus, interactive */
+  --color-harbor-soft: #e3eef8;
+  --color-signal: #f2a900;      /* attention: overdue / exceptions */
+  --color-signal-soft: #fdf3d9;
+  --color-danger: #c0262d;
+  --color-danger-soft: #fbe7e7;
+  --color-ok: #2f8a4c;
+  --color-ok-soft: #e3f2e7;
+
+  /* Shipment status dots */
+  --color-st-pending: #7b8794;
+  --color-st-picked: #4c5fd5;
+  --color-st-transit: #1e6bb8;
+  --color-st-ofd: #0f8a8a;
+  --color-st-delayed: #c4471d;
+  --color-st-delivered: #2f8a4c;
+  --color-st-cancelled: #a3adb7;
+
+  /* Chart series (validated categorical order, light surface) */
+  --color-series-1: #2a78d6;
+  --color-series-2: #eb6834;
+  --color-series-3: #1baf7a;
+  --color-series-4: #eda100;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-deck);
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+  }
+  body {
+    min-height: 100vh;
+    background: var(--color-deck);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-harbor);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-signal-soft);
+  }
+}
+
+@layer components {
+  /* Wide, stencil-like setting used for container-style codes and big numerals. */
+  .stencil {
+    font-variation-settings: "wdth" 118;
+    letter-spacing: 0.01em;
+  }
+  .code {
+    font-variation-settings: "wdth" 108;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .condensed {
+    font-variation-settings: "wdth" 88;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    border-radius: 6px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    height: 2.35rem;
+    padding: 0 0.95rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    cursor: pointer;
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-hull);
+    color: #fff;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-hull-2);
+  }
+  .btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    border-color: var(--color-fog);
+  }
+  .btn-danger {
+    background: var(--color-danger);
+    color: #fff;
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: #a51f25;
+  }
+  .btn-ghost {
+    color: var(--color-steel);
+    height: 2rem;
+    padding: 0 0.6rem;
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--color-rule-soft);
+    color: var(--color-ink);
+  }
+
+  .input {
+    width: 100%;
+    height: 2.35rem;
+    padding: 0 0.7rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 5px;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-size: 0.92rem;
+  }
+  textarea.input {
+    height: auto;
+    padding: 0.55rem 0.7rem;
+    line-height: 1.45;
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--color-harbor);
+    box-shadow: 0 0 0 3px var(--color-harbor-soft);
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  select.input {
+    padding-right: 2rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23586a7b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+  }
+
+  .label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: 0.3rem;
+  }
+  .hint {
+    font-size: 0.78rem;
+    color: var(--color-steel);
+    margin-top: 0.25rem;
+  }
+  .field-error {
+    font-size: 0.78rem;
+    color: var(--color-danger);
+    margin-top: 0.25rem;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--color-steel);
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--color-rule);
+    white-space: nowrap;
+    background: #f7f9fa;
+  }
+  .table td {
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--color-rule-soft);
+    vertical-align: middle;
+  }
+  .table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .table tbody tr.row-link {
+    cursor: pointer;
+  }
+  .table tbody tr.row-link:hover td {
+    background: #f6f9fc;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes band-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.band-in > * {
+  animation: band-in 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.band-in > *:nth-child(2) { animation-delay: 60ms; }
+.band-in > *:nth-child(3) { animation-delay: 120ms; }
+.band-in > *:nth-child(4) { animation-delay: 180ms; }
