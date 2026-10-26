@@ -68,7 +68,9 @@ def queue_scan():
         task = detect_overdue_shipments_task.apply_async(retry=False)
     except Exception as exc:
         logger.exception("Could not queue overdue scan")
-        raise ServiceUnavailableError(f"Task queue unavailable: {exc}") from exc
+        raise ServiceUnavailableError(
+            "Task queue unavailable: cannot reach Redis. Check that Redis and the Celery worker are running."
+        ) from exc
     return ScanQueued(task_id=task.id, status="queued")
 
 

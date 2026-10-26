@@ -50,3 +50,7 @@ export const api = {
     lastScan: () => data(client.get('/alerts/scan/last')),
   },
 }
+
+export const ALERTS_CHANGED = 'cargopulse:alerts-changed'
+/** Tell listeners (the sidebar badge) that alert counts may have changed. */
+export const notifyAlertsChanged = () => window.dispatchEvent(new Event(ALERTS_CHANGED))

@@ -24,6 +24,15 @@ celery_app.conf.update(
     result_expires=3600,
     task_track_started=True,
     broker_connection_retry_on_startup=True,
+    # Fail fast (instead of hanging API requests) when Redis is unreachable.
+    broker_connection_timeout=3,
+    redis_socket_connect_timeout=3,
+    redis_socket_timeout=10,
+    redis_retry_on_timeout=True,
+    redis_backend_health_check_interval=10,
+    result_backend_transport_options={
+        "retry_policy": {"max_retries": 2, "interval_start": 0, "interval_step": 0.5, "timeout": 3}
+    },
     task_default_queue="cargopulse",
     beat_schedule={
         "detect-overdue-shipments": {

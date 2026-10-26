@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Bot, CheckCircle2, Loader2, Pencil, Trash2, User } from 'lucide-react'
-import { api } from '../api'
+import { api, notifyAlertsChanged } from '../api'
 import { parseApiError } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import { useToast } from '../components/Toast'
@@ -163,6 +163,7 @@ function StatusForm({ shipment, onUpdated }) {
       const updated = await api.shipments.changeStatus(shipment.id, body)
       notify(`Marked ${STATUS_META[status].label.toLowerCase()}`)
       onUpdated(updated)
+      notifyAlertsChanged()
     } catch (err) {
       setError(parseApiError(err))
     } finally {
@@ -318,6 +319,7 @@ export default function ShipmentDetail() {
     try {
       await api.alerts.resolve(alert.id, 'Resolved from shipment page')
       notify('Alert resolved')
+      notifyAlertsChanged()
       await reload({ silent: true })
     } catch (err) {
       notify(parseApiError(err).message, { tone: 'error' })

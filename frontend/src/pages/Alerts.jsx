@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Loader2, Radar, Search } from 'lucide-react'
-import { api } from '../api'
+import { api, notifyAlertsChanged } from '../api'
 import { parseApiError } from '../api/client'
 import { useApi, useDebounced } from '../hooks/useApi'
 import { useToast } from '../components/Toast'
@@ -114,6 +114,7 @@ export default function Alerts() {
   const refreshAll = () => {
     reload({ silent: true })
     counts.reload({ silent: true })
+    notifyAlertsChanged()
   }
 
   async function confirmResolve(e) {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Bell, Gauge, Menu, Package, Route as RouteIcon, Search, Truck, X } from 'lucide-react'
-import { api } from '../api'
+import { ALERTS_CHANGED, api } from '../api'
 import { parseApiError } from '../api/client'
 
 export function Logo({ className = '' }) {
@@ -158,12 +158,18 @@ export default function Layout() {
 
   useEffect(() => {
     let alive = true
-    api.alerts
-      .counts()
-      .then((c) => alive && setAlertCount(c.active))
-      .catch(() => {})
+    const load = () =>
+      api.alerts
+        .counts()
+        .then((c) => alive && setAlertCount(c.active))
+        .catch(() => {})
+    load()
+    const interval = setInterval(load, 60_000)
+    window.addEventListener(ALERTS_CHANGED, load)
     return () => {
       alive = false
+      clearInterval(interval)
+      window.removeEventListener(ALERTS_CHANGED, load)
     }
   }, [location.pathname])
 
